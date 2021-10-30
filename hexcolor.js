@@ -3,6 +3,7 @@ const hexbtn = document.querySelector(".hexbtn");
 const bodybcg = document.querySelector("body");
 const hex = document.getElementById("hex");
 hexbtn.addEventListener("click", getHex);
+hexbtnauto.addEventListener("click", hexAutoMode);
 function getHex() {
   let hexcol = "#";
   for (let i = 0; i < 6; i++) {
@@ -13,4 +14,34 @@ function getHex() {
   hex.innerHTML = `
     <h1>${hexcol}</h1>
     `;
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+var stopauto = 1;
+
+async function hexAutoMode() {
+  if (stopauto === 1) {
+    stopauto = 0;
+  } else if (stopauto === 0) {
+    stopauto = 1;
+  }
+  if (stopauto === 0) {
+    hexbtnauto.innerHTML = `
+    Auto mode: ON
+    `;
+    for (let i = 0; ; i++) {
+      if (stopauto === 1) {
+        hexbtnauto.innerHTML = `
+        Auto mode: OFF
+        `;
+        break;
+      }
+      getHex();
+      await sleep(25);
+      i-=1;
+    }
+  }
 }
